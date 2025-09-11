@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://yourdomain.com'],
-    credentials: true
+    origin: ['http://localhost:3000', 'https://yourdomain.com', '*'],
+    credentials: false
 }));
 
 app.use('/api', userRouter);
