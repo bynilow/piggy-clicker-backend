@@ -6,8 +6,6 @@ class CoinsController {
 
         const user = await db.query(`UPDATE person SET coins = coins + $1 where id = $2 RETURNING coins`, [coins, user_id]);
 
-        await db.query(`UPDATE person SET lastUpdateDate = $1 where id = $2`, [new Date().toISOString(), user_id]);
-
         res.json(user.rows[0])
     }
 
