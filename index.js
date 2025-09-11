@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://yourdomain.com', '*'],
+    origin: ['http://localhost:3000', 'https://piggy-clicker.vercel.app/', '*'],
     credentials: false
 }));
 
