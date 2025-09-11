@@ -4,7 +4,7 @@ import { coinsRouter } from './routes/coins.routes.js';
 import { boostsRouter } from './routes/boosts.routes.js';
 import cors from 'cors';
 
-const PORT = 5000;
+const PORT = 8080;
 
 const app = express();
 
