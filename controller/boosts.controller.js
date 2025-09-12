@@ -4,7 +4,7 @@ class BoostsController {
     async buyBoost(req, res) {
         const { user_id, boost_id, boost_cost } = req.body;
 
-        const currentUpgradedBoost = await db.query(`SELECT * FROM boosts WHERE user_id = $1`, [user_id]);
+        const currentUpgradedBoost = await db.query(`SELECT * FROM boosts WHERE user_id = $1 AND boost_id = $2`, [user_id, boost_id]);
 
         let newBoost = null;
 
@@ -16,7 +16,7 @@ class BoostsController {
 
         await db.query(`UPDATE person SET coins = coins - $1 where id = $2`, [boost_cost, user_id]);
 
-        res.json(newBoost.rows[0])
+        res.json({ ...newBoost.rows[0], boost_cost })
     }
 
     async getUserBoosts(req, res) {
@@ -24,7 +24,7 @@ class BoostsController {
 
         const users = await db.query(`SELECT * FROM boosts where user_id = $1`, [id]);
 
-        res.json(users.rows[0]);
+        res.json(users.rows);
     }
 }
 

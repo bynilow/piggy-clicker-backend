@@ -17,7 +17,7 @@ class UserController {
     }
 
     async getAllUsers(req, res) {
-        const users = await db.query(`SELECT * FROM person`);
+        const users = await db.query(`SELECT * FROM person ORDER BY coins DESC`);
 
         res.json(users.rows);
     }
