@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(async function (req, res, next) {
-    console.log(req.cookies)
+    console.log('cookies: ', req.cookies)
     if (!req.path.startsWith('/api/users')) {
         UserController.staticUpdateLastVisitedDate(req.cookies.user_id);
     }
