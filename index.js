@@ -17,6 +17,16 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
+app.use((req, res, next) => {
+    res.cookie('user_id', req.cookies.user_id, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 дней
+    });
+    next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
