@@ -5,6 +5,7 @@ import { boostsRouter } from './routes/boosts.routes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { UserController } from './controller/user.controller.js';
+import bodyParser from 'body-parser';
 
 const PORT = 8080;
 
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(async function (req, res, next) {
     console.log(req.cookies)
