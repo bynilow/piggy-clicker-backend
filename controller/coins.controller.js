@@ -10,11 +10,11 @@ class CoinsController {
     }
 
     async sendCoins(req, res) {
-        const { sendToId, coins, user_id } = req.body;
+        const { send_to_id, coins, user_id } = req.body;
 
         const senderCoins = await db.query(`UPDATE person SET coins = coins - $1 WHERE id = $2 RETURNING coins`, [coins, user_id]);
 
-        await db.query(`UPDATE person SET coins = coins + $1 WHERE id = $2`, [coins, sendToId]);
+        await db.query(`UPDATE person SET coins = coins + $1 WHERE id = $2`, [coins, send_to_id]);
 
         res.json(senderCoins.rows[0])
     }

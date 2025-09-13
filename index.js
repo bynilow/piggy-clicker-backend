@@ -3,16 +3,27 @@ import { userRouter } from './routes/user.routes.js';
 import { coinsRouter } from './routes/coins.routes.js';
 import { boostsRouter } from './routes/boosts.routes.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import { UserController } from './controller/user.controller.js';
 
 const PORT = 8080;
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
+
+app.use(async function (req, res, next) {
+    console.log(req.cookies)
+    if (!req.path.startsWith('/api/users')) {
+        UserController.staticUpdateLastVisitedDate(req.cookies.user_id);
+    }
+    // setTimeout(next, 250);
+});
 
 app.use(cors({
     origin: true,
-    credentials: false
+    credentials: true
 }));
 
 app.use('/api', userRouter);

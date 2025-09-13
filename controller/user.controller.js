@@ -21,6 +21,12 @@ class UserController {
 
         res.json(users.rows);
     }
+
+    static async staticUpdateLastVisitedDate(userId) {
+        const currentDate = new Date().toISOString();
+
+        await db.query(`UPDATE person SET last_visited_date = NOW() AT TIME ZONE 'UTC' WHERE id = $1`, [userId]);
+    }
 }
 
 export { UserController };
