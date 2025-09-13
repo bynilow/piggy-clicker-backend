@@ -12,8 +12,12 @@ const PORT = 8080;
 const app = express();
 
 app.use(cors({
-    origin: true,
-    credentials: true
+    origin: [
+        'http://localhost:3000',
+        'https://piggy-clicker.vercel.app'
+    ],
+    credentials: true,
+    exposedHeaders: ['Set-Cookie']
 }));
 
 app.use(cookieParser());
