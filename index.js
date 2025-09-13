@@ -16,10 +16,11 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(async function (req, res, next) {
-    console.log('cookies: ', req.cookies)
-    if (!req.path.startsWith('/api/users')) {
+    if (!req.path.startsWith('/api/users') && req.cookies) {
+        console.log('cookies: ', req.cookies)
         UserController.staticUpdateLastVisitedDate(req.cookies.user_id);
     }
+    next();
     // setTimeout(next, 250);
 });
 
