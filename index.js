@@ -29,7 +29,7 @@ app.use(async function (req, res, next) {
     console.log('Cookies header:', req.headers.cookie);
     console.log('Parsed cookies:', req.cookies);
 
-    if (!req.path.startsWith('/api/users') && req.cookies) {
+    if (!req.path.startsWith('/api/users') && req.cookies && req.cookies.user_id !== 'undefined') {
         UserController.staticUpdateLastVisitedDate(req.cookies.user_id);
     }
     next();
