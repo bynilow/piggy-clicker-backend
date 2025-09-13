@@ -26,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(async function (req, res, next) {
+    console.log('Request origin:', req.headers.origin);
     console.log('Cookies header:', req.headers.cookie);
     console.log('Parsed cookies:', req.cookies);
 
