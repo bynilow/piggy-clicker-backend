@@ -11,6 +11,11 @@ const PORT = 8080;
 
 const app = express();
 
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,11 +28,6 @@ app.use(async function (req, res, next) {
     next();
     // setTimeout(next, 250);
 });
-
-app.use(cors({
-    origin: true,
-    credentials: true
-}));
 
 app.use('/api', userRouter);
 app.use('/api', coinsRouter);
