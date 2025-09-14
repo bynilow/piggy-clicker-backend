@@ -17,6 +17,8 @@ app.use(cors({
         'https://piggy-clicker.vercel.app',
     ],
     credentials: true,
+    exposedHeaders: ['Set-Cookie'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }));
 
 app.use(cookieParser());
