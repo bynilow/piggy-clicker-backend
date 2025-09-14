@@ -4,6 +4,8 @@ class UserController {
     async createUser(req, res) {
         const { username, user_id, reffered_by } = req.body;
 
+        console.log('reffered: ', reffered_by)
+
         const newUser =
             await db.query(`INSERT INTO person (id, username, coins, reffered_by) values ($1, $2, $3, $4) RETURNING *`, [user_id, username, 100, reffered_by || null]);
 
