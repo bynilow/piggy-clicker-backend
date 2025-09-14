@@ -17,8 +17,6 @@ app.use(cors({
         'https://piggy-clicker.vercel.app',
     ],
     credentials: true,
-    exposedHeaders: ['Set-Cookie'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }));
 
 app.use(cookieParser());
@@ -27,11 +25,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(async function (req, res, next) {
-    console.log('Request origin:', req.headers.origin);
-    console.log('Cookies header:', req.headers.cookie);
-    console.log('Parsed cookies:', req.cookies);
+    const userId = req.headers['x-user-id'];
+    console.log('User ID from header:', userId);
 
-    if (!req.path.startsWith('/api/users') && req.cookies && req.cookies.user_id !== 'undefined') {
+    if (!req.path.startsWith('/api/users') && userId) {
         UserController.staticUpdateLastVisitedDate(req.cookies.user_id);
     }
     next();
