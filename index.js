@@ -29,7 +29,7 @@ app.use(async function (req, res, next) {
     console.log('User ID from header:', userId);
 
     if (!req.path.startsWith('/api/users') && userId) {
-        UserController.staticUpdateLastVisitedDate(req.cookies.user_id);
+        UserController.staticUpdateLastVisitedDate(userId);
     }
     next();
     // setTimeout(next, 250);
