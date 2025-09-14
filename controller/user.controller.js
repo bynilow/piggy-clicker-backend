@@ -2,9 +2,10 @@ import { pool as db } from '../db.js';
 
 class UserController {
     async createUser(req, res) {
-        const { username, user_id } = req.body;
+        const { username, user_id, reffered_by } = req.body;
 
-        const newUser = await db.query(`INSERT INTO person (id, username, coins) values ($1, $2, $3) RETURNING *`, [user_id, username, 0]);
+        const newUser =
+            await db.query(`INSERT INTO person (id, username, coins, reffered_by) values ($1, $2, $3, $4) RETURNING *`, [user_id, username, 100, reffered_by]);
 
         res.json(newUser.rows[0])
     }
