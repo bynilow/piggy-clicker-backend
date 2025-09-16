@@ -14,7 +14,7 @@ tgBot.start(async (ctx) => {
     const payload = ctx.payload;
 
     const appUrl = payload
-        ? `https://t.me/PiggyClickerBot/%3Fstartapp=%24${payload}`
+        ? `https://t.me/PiggyClickerBot/game?startapp=${payload}`
         : `https://t.me/PiggyClickerBot/game`;
 
     try {
