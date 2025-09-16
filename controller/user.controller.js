@@ -1,4 +1,5 @@
 import { pool as db } from '../db.js';
+import { tgBot } from '../tgBot.js';
 
 class UserController {
     async createUser(req, res) {
@@ -8,6 +9,23 @@ class UserController {
             await db.query(`INSERT INTO person (id, username, coins, referred_by, avatar_url) values ($1, $2, $3, $4, $5) RETURNING *`,
                 [user_id, username, 1500, referred_by || null, avatar_url || null]);
 
+        if (referred_by) {
+            try {
+                if (username) {
+                    tgBot.telegram.sendMessage(
+                        referred_by,
+                        `🎉 По вашей ссылке зарегистрировался новый пользователь: @${username}`
+                    );
+                } else {
+                    tgBot.telegram.sendMessage(
+                        referred_by,
+                        `🎉 По вашей ссылке зарегистрировался новый пользователь!`
+                    );
+                }
+            } catch (err) {
+                console.error("Ошибка при отправке сообщения рефереру:", err.message);
+            }
+        }
         res.json(newUser.rows[0])
     }
 
