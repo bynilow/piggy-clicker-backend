@@ -14,8 +14,8 @@ tgBot.start(async (ctx) => {
     const payload = ctx.payload;
 
     const appUrl = payload
-        ? `https://piggy-clicker.vercel.app/?tgWebAppStartParam=${payload}`
-        : `https://piggy-clicker.vercel.app/`;
+        ? `https://t.me/PiggyClickerBot/?startapp=${payload}`
+        : `https://t.me/PiggyClickerBot/game`;
 
     try {
         await ctx.reply("Добро пожаловать в Piggy Clicker 🐷!", {
