@@ -9,7 +9,6 @@ if (!TG_BOT_TOKEN) {
 const tgBot = new Telegraf(TG_BOT_TOKEN);
 
 tgBot.start(async (ctx) => {
-    console.log(ctx)
     console.log('ctx payload: ', ctx.payload)
     const payload = ctx.payload;
 
@@ -20,8 +19,8 @@ tgBot.start(async (ctx) => {
     try {
         await ctx.reply("Добро пожаловать в Piggy Clicker 🐷!", {
             reply_markup: {
-                keyboard: [
-                    [{ text: "🚀 Открыть приложение", web_app: { url: appUrl } }]
+                inline_keyboard: [
+                    [{ text: "Играть", web_app: { url: appUrl }, }]
                 ],
                 resize_keyboard: true,
             },
