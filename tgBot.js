@@ -13,7 +13,7 @@ tgBot.start(async (ctx) => {
     const referralId = ctx.payload;
 
     const appUrl = referralId
-        ? `https://piggy-clicker.vercel.app/?referred=${refId || 0}`
+        ? `https://piggy-clicker.vercel.app/?referred=${referralId || 0}`
         : `https://piggy-clicker.vercel.app/`;
 
     try {
