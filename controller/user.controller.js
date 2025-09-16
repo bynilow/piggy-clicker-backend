@@ -6,7 +6,7 @@ class UserController {
 
         const newUser =
             await db.query(`INSERT INTO person (id, username, coins, referred_by, avatar_url) values ($1, $2, $3, $4) RETURNING *`,
-                [user_id, username, 100, referred_by || null, avatar_url || null]);
+                [user_id, username, 1500, referred_by || null, avatar_url || null]);
 
         res.json(newUser.rows[0])
     }
