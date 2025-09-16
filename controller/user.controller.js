@@ -12,12 +12,12 @@ class UserController {
         if (referred_by) {
             try {
                 if (username) {
-                    tgBot.telegram.sendMessage(
+                    await tgBot.telegram.sendMessage(
                         referred_by,
                         `🎉 По вашей ссылке зарегистрировался новый пользователь: @${username}`
                     );
                 } else {
-                    tgBot.telegram.sendMessage(
+                    await tgBot.telegram.sendMessage(
                         referred_by,
                         `🎉 По вашей ссылке зарегистрировался новый пользователь!`
                     );
@@ -26,6 +26,7 @@ class UserController {
                 console.error("Ошибка при отправке сообщения рефереру:", err.message);
             }
         }
+
         res.json(newUser.rows[0])
     }
 
