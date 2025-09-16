@@ -17,19 +17,22 @@ tgBot.start(async (ctx) => {
         ? `https://piggy-clicker.vercel.app/?tgWebAppStartParam=${payload}`
         : `https://piggy-clicker.vercel.app/`;
 
-    await ctx.reply(
-        "Добро пожаловать в Piggy Clicker 🐷!",
-        {
+    try {
+        await ctx.reply("Добро пожаловать в Piggy Clicker 🐷!", {
             reply_markup: {
                 keyboard: [
-                    [
-                        { text: "🚀 Открыть приложение", web_app: { url: appUrl } }
-                    ]
+                    [{ text: "🚀 Открыть приложение", web_app: { url: appUrl } }]
                 ],
                 resize_keyboard: true,
             },
+        });
+    } catch (err) {
+        if (err.response?.error_code === 403) {
+            console.warn(`⚠️ Пользователь ${ctx.from.id} заблокировал бота`);
+        } else {
+            console.error("Ошибка при отправке сообщения:", err);
         }
-    );
+    }
 });
 
 // запуск бота (long polling)
