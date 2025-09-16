@@ -10,11 +10,11 @@ const tgBot = new Telegraf(TG_BOT_TOKEN);
 
 tgBot.start(async (ctx) => {
     console.log('ctx payload: ', ctx.payload)
-    const payload = ctx.payload;
+    const referralId = ctx.payload;
 
-    const appUrl = payload
-        ? `https://t.me/PiggyClickerBot/game?startapp=${payload}`
-        : `https://t.me/PiggyClickerBot/game`;
+    const appUrl = referralId
+        ? `https://piggy-clicker.vercel.app/?referred=${refId || 0}`
+        : `https://piggy-clicker.vercel.app/`;
 
     try {
         await ctx.reply("Добро пожаловать в Piggy Clicker 🐷!", {
@@ -31,6 +31,7 @@ tgBot.start(async (ctx) => {
         } else {
             console.error("Ошибка при отправке сообщения:", err);
         }
+        await ctx.reply(err);
     }
 });
 
