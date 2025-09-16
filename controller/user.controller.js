@@ -2,12 +2,11 @@ import { pool as db } from '../db.js';
 
 class UserController {
     async createUser(req, res) {
-        const { username, user_id, reffered_by } = req.body;
-
-        console.log('reffered: ', reffered_by)
+        const { username, user_id, referred_by, avatar_url } = req.body;
 
         const newUser =
-            await db.query(`INSERT INTO person (id, username, coins, reffered_by) values ($1, $2, $3, $4) RETURNING *`, [user_id, username, 100, reffered_by || null]);
+            await db.query(`INSERT INTO person (id, username, coins, referred_by, avatar_url) values ($1, $2, $3, $4) RETURNING *`,
+                [user_id, username, 100, referred_by || null, avatar_url || null]);
 
         res.json(newUser.rows[0])
     }

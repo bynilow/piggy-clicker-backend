@@ -5,7 +5,7 @@ import { boostsRouter } from './routes/boosts.routes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { UserController } from './controller/user.controller.js';
-import bodyParser from 'body-parser';
+import { referralsRouter } from './routes/referrals.routes.js';
 
 const PORT = 8080;
 
@@ -38,5 +38,6 @@ app.use(async function (req, res, next) {
 app.use('/api', userRouter);
 app.use('/api', coinsRouter);
 app.use('/api', boostsRouter);
+app.use('/api', referralsRouter);
 
 app.listen(PORT, () => console.log(`server starts on ${PORT} port`))
