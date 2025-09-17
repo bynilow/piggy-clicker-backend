@@ -30,7 +30,9 @@ class UserController {
     async getAllUsers(req, res) {
         const username = req.query.username;
 
-        if (!username) {
+        const formattedUsername = username.replace('@', '');
+
+        if (!formattedUsername) {
             const users = await db.query(`SELECT * FROM person ORDER BY coins DESC`);
 
             res.json(users.rows);
@@ -41,7 +43,7 @@ class UserController {
                 WHERE username ILIKE $1
                 ORDER BY coins DESC
                 LIMIT 5
-            `, [`%${username}%`]);
+            `, [`%${formattedUsername}%`]);
 
             res.json(users.rows);
         }
