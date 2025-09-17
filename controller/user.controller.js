@@ -29,7 +29,7 @@ class UserController {
 
     async getAllUsers(req, res) {
         const username = req.query.username;
-        console.log(username)
+
         if (!username) {
             const users = await db.query(`SELECT * FROM person ORDER BY coins DESC`);
 
@@ -38,9 +38,9 @@ class UserController {
             const users = await db.query(`
                 SELECT * 
                 FROM person 
-                WHERE username LIKE $1
+                WHERE username ILIKE $1
                 ORDER BY coins DESC
-                LIMIT 3
+                LIMIT 5
             `, [`%${username}%`]);
 
             res.json(users.rows);
