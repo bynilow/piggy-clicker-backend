@@ -1,4 +1,4 @@
-import { tgBot } from './tgBot';
+import { tgBot } from './tgBot.js';
 
 const sendMessageToChat = async (userId, message) => {
     try {

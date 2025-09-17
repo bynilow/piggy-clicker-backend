@@ -1,5 +1,4 @@
 import { pool as db } from '../db.js';
-import { tgBot } from '../bot/tgBot.js';
 import { sendMessageToChat } from '../bot/sendMessageToChat.js';
 
 class UserController {

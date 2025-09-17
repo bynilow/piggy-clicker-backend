@@ -6,6 +6,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { UserController } from './controller/user.controller.js';
 import { referralsRouter } from './routes/referrals.routes.js';
+import { tgBot } from './bot/tgBot.js';
 
 const PORT = 8080;
 
