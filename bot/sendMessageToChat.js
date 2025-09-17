@@ -1,3 +1,5 @@
+import { tgBot } from './tgBot';
+
 const sendMessageToChat = async (userId, message) => {
     try {
         await tgBot.telegram.sendMessage(
@@ -5,7 +7,7 @@ const sendMessageToChat = async (userId, message) => {
             message
         );
     } catch (err) {
-        console.error("Ошибка при отправке сообщения рефереру:", err.message);
+        console.error("Ошибка при отправке:", err.message);
     }
 }
 
