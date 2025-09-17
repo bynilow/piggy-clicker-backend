@@ -26,7 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(async function (req, res, next) {
     const userId = req.headers['x-user-id'];
-    console.log('User ID from header:', userId);
 
     if (!req.path.startsWith('/api/users') && userId) {
         UserController.staticUpdateLastVisitedDate(userId);

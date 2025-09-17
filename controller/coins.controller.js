@@ -1,4 +1,5 @@
 import { pool as db } from '../db.js';
+import { sendMessageToChat } from '../bot/sendMessageToChat.js';
 
 class CoinsController {
     async addCoins(req, res) {
