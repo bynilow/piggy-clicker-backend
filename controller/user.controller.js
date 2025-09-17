@@ -1,5 +1,6 @@
 import { pool as db } from '../db.js';
-import { tgBot } from '../tgBot.js';
+import { tgBot } from '../bot/tgBot.js';
+import { sendMessageToChat } from '../bot/sendMessageToChat.js';
 
 class UserController {
     async createUser(req, res) {
@@ -10,20 +11,10 @@ class UserController {
                 [user_id, username, 1500, referred_by || null, avatar_url || null]);
 
         if (referred_by) {
-            try {
-                if (username) {
-                    await tgBot.telegram.sendMessage(
-                        referred_by,
-                        `🎉 По вашей ссылке зарегистрировался новый пользователь: @${username}`
-                    );
-                } else {
-                    await tgBot.telegram.sendMessage(
-                        referred_by,
-                        `🎉 По вашей ссылке зарегистрировался новый пользователь!`
-                    );
-                }
-            } catch (err) {
-                console.error("Ошибка при отправке сообщения рефереру:", err.message);
+            if (username) {
+                sendMessageToChat(referred_by, `🎉 По вашей ссылке зарегистрировался новый пользователь: @${username}`);
+            } else {
+                sendMessageToChat(referred_by, `🎉 По вашей ссылке зарегистрировался новый пользователь!`);
             }
         }
 
@@ -38,9 +29,23 @@ class UserController {
     }
 
     async getAllUsers(req, res) {
-        const users = await db.query(`SELECT * FROM person ORDER BY coins DESC`);
+        const username = req.query.username;
+        console.log(username)
+        if (!username) {
+            const users = await db.query(`SELECT * FROM person ORDER BY coins DESC`);
 
-        res.json(users.rows);
+            res.json(users.rows);
+        } else {
+            const users = await db.query(`
+                SELECT * 
+                FROM person 
+                WHERE username LIKE $1
+                ORDER BY coins DESC
+                LIMIT 3
+            `, [`%${username}%`]);
+
+            res.json(users.rows);
+        }
     }
 
     static async staticUpdateLastVisitedDate(userId) {

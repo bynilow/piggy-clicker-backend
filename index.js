@@ -31,8 +31,8 @@ app.use(async function (req, res, next) {
     if (!req.path.startsWith('/api/users') && userId) {
         UserController.staticUpdateLastVisitedDate(userId);
     }
-    next();
-    // setTimeout(next, 250);
+    setTimeout(next, 850);
+    // next();
 });
 
 app.use('/api', userRouter);

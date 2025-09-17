@@ -10,13 +10,16 @@ class CoinsController {
     }
 
     async sendCoins(req, res) {
-        const { send_to_id, coins, user_id } = req.body;
+        const user_id = req.headers['x-user-id'];
+        const { send_to_id, coins } = req.body;
 
-        const senderCoins = await db.query(`UPDATE person SET coins = coins - $1 WHERE id = $2 RETURNING coins`, [coins, user_id]);
+        const senderCoins = await db.query(`UPDATE person SET coins = coins - $1 WHERE id = $2 RETURNING coins, username`, [coins, user_id]);
 
         await db.query(`UPDATE person SET coins = coins + $1 WHERE id = $2`, [coins, send_to_id]);
 
-        res.json(senderCoins.rows[0])
+        sendMessageToChat(send_to_id, `💰 @${senderCoins.rows[0].username} отправил вам ${Number(coins).toFixed(1)} монеток!`);
+
+        res.json(senderCoins.rows[0].coins)
     }
 }
 
