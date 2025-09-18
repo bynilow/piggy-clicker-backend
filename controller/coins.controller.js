@@ -14,10 +14,12 @@ class CoinsController {
         const user_id = req.headers['x-user-id'];
         const { send_to_id, coins } = req.body;
 
-        const senderCoins = await db.query(`UPDATE person SET coins = coins - $1 WHERE id = $2 RETURNING coins, username`, [coins, user_id]);
-        await db.query(`INSERT INTO sending_history (sender_id, recipient_id, coins, datetime) values ($1, $2, $3, NOW())`, [user_id, send_to_id, coins]);
+        console.log(user_id, send_to_id, coins)
 
+        const senderCoins = await db.query(`UPDATE person SET coins = coins - $1 WHERE id = $2 RETURNING coins, username`, [coins, user_id]);
         await db.query(`UPDATE person SET coins = coins + $1 WHERE id = $2`, [coins, send_to_id]);
+
+        await db.query(`INSERT INTO sending_history (sender_id, recipient_id, coins, datetime) values ($1, $2, $3, NOW())`, [user_id, send_to_id, coins]);
 
         sendMessageToChat(send_to_id, `💰 @${senderCoins.rows[0].username} отправил вам ${Number(coins).toFixed(0)} монеток!`);
 
@@ -56,7 +58,7 @@ class CoinsController {
                     .map(historyItem => ({
                         id: historyItem.id,
                         is_sending: historyItem.sender_id === user_id,
-                        time: new Date(historyItem.datetime).toLocaleTimeString().slice(0, -3),
+                        full_date_time: new Date(historyItem.datetime),
                         coins: historyItem.coins,
                         user: {
                             username: historyItem.username,
