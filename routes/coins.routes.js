@@ -7,5 +7,6 @@ const coinsController = new CoinsController();
 
 coinsRouter.put('/coins/add', coinsController.addCoins);
 coinsRouter.put('/coins/send', coinsController.sendCoins);
+coinsRouter.get('/coins/history', coinsController.getSendingHistory);
 
 export { coinsRouter };
