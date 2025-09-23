@@ -48,31 +48,7 @@ class CoinsController {
             LIMIT 30
         `, [user_id]);
 
-        const uniqueDates = Array.from(new Set(history.rows.map(historyItem => new Date(historyItem.datetime).toLocaleDateString())));
-
-        const formattedHistory = uniqueDates.map(date => {
-
-            const operations =
-                history.rows
-                    .filter(historyItem => new Date(historyItem.datetime).toLocaleDateString().startsWith(date))
-                    .map(historyItem => ({
-                        id: historyItem.id,
-                        is_sending: historyItem.sender_id === user_id,
-                        full_date_time: new Date(historyItem.datetime),
-                        coins: historyItem.coins,
-                        user: {
-                            username: historyItem.username,
-                            avatar: historyItem.avatar_url,
-                        },
-                    }))
-
-            return {
-                date: date,
-                operations,
-            }
-        })
-
-        res.json(formattedHistory)
+        res.json(history.rows)
     }
 }
 

@@ -9,16 +9,6 @@ const password = process.env.PG_PASSWORD;
 const host = process.env.PG_HOST;
 const port = process.env.PG_PORT;
 
-console.log(
-    {
-        database,
-        user,
-        password,
-        host,
-        port
-    }
-)
-
 const pool = new Pool({
     user,
     password,

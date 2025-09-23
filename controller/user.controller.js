@@ -30,7 +30,7 @@ class UserController {
     async getAllUsers(req, res) {
         const username = req.query.username;
 
-        const formattedUsername = username.replace('@', '');
+        const formattedUsername = username?.replace('@', '');
 
         if (!formattedUsername) {
             const users = await db.query(`SELECT * FROM person ORDER BY coins DESC`);
@@ -47,6 +47,33 @@ class UserController {
 
             res.json(users.rows);
         }
+    }
+
+    async getLeaders(req, res) {
+        const user_id = req.headers['x-user-id'];
+
+        const allLeaders = await db.query(`SELECT * FROM person ORDER BY coins DESC LIMIT 30`);
+
+        const allLeadersWithBoosts = [];
+
+        for (const leader of allLeaders.rows) {
+            const userBoosts = await db.query(`SELECT boost_id, boost_level FROM boosts WHERE user_id = $1`, [leader.id]);
+
+            allLeadersWithBoosts.push({ ...leader, boosts: userBoosts.rows });
+        }
+
+        const currentUserPosition = await db.query(`
+            SELECT COUNT(*) + 1 as position
+            FROM person 
+            WHERE coins > (SELECT coins FROM person WHERE id = $1);
+        `, [user_id]);
+
+        const result = {
+            current_user_place: currentUserPosition.rows[0].position,
+            leaders: allLeadersWithBoosts
+        }
+
+        res.json(result);
     }
 
     static async staticUpdateLastVisitedDate(userId) {
