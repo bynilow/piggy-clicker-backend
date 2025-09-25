@@ -42,10 +42,10 @@ class BoostsController {
         };
 
         const RARE_CHANCE = {
-            common: 60,
-            rare: 25,
-            mythical: 10,
-            legendary: 5,
+            common: 40,
+            rare: 35,
+            mythical: 17,
+            legendary: 8,
         };
 
         const winBoosts = [];
