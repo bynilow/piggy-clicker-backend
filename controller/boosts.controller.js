@@ -42,10 +42,10 @@ class BoostsController {
         };
 
         const RARE_CHANCE = {
-            common: 40,
-            rare: 35,
-            mythical: 17,
-            legendary: 8,
+            common: 60, // 100 - 60 - 40%
+            rare: 30, // 60 - 30 - 30%
+            mythical: 10, // 30 - 10 - 20% 
+            legendary: 0, // 10 - 0 - 10%
         };
 
         const winBoosts = [];
@@ -55,21 +55,21 @@ class BoostsController {
 
             let randomSelectedBoost = null;
 
-            if (randomNumber <= RARE_CHANCE.legendary && sortedBoostsByRare.legendary.length > 0 && !randomSelectedBoost) {
-                randomSelectedBoost = sortedBoostsByRare.legendary[Math.ceil(Math.random() * sortedBoostsByRare.legendary.length - 1)];
-            }
-
-            if (randomNumber <= RARE_CHANCE.mythical && sortedBoostsByRare.mythical.length > 0 && !randomSelectedBoost) {
-                randomSelectedBoost = sortedBoostsByRare.mythical[Math.ceil(Math.random() * sortedBoostsByRare.mythical.length - 1)];
-            }
-
-            if (randomNumber <= RARE_CHANCE.rare && sortedBoostsByRare.rare.length > 0 && !randomSelectedBoost) {
-                randomSelectedBoost = sortedBoostsByRare.rare[Math.ceil(Math.random() * sortedBoostsByRare.rare.length - 1)];
-            }
-
-            if (sortedBoostsByRare.common.length > 0 && !randomSelectedBoost) {
+            if (randomNumber >= RARE_CHANCE.common && sortedBoostsByRare.common.length > 0 && !randomSelectedBoost) {
                 randomSelectedBoost = sortedBoostsByRare.common[Math.ceil(Math.random() * sortedBoostsByRare.common.length - 1)];
-            }
+            };
+
+            if (randomNumber >= RARE_CHANCE.rare && randomNumber < RARE_CHANCE.common && sortedBoostsByRare.rare.length > 0 && !randomSelectedBoost) {
+                randomSelectedBoost = sortedBoostsByRare.rare[Math.ceil(Math.random() * sortedBoostsByRare.rare.length - 1)];
+            };
+
+            if (randomNumber >= RARE_CHANCE.mythical && randomNumber < RARE_CHANCE.rare && sortedBoostsByRare.mythical.length > 0 && !randomSelectedBoost) {
+                randomSelectedBoost = sortedBoostsByRare.mythical[Math.ceil(Math.random() * sortedBoostsByRare.mythical.length - 1)];
+            };
+
+            if (randomNumber < RARE_CHANCE.mythical && sortedBoostsByRare.legendary.length > 0 && !randomSelectedBoost) {
+                randomSelectedBoost = sortedBoostsByRare.legendary[Math.ceil(Math.random() * sortedBoostsByRare.legendary.length - 1)];
+            };
 
             if (randomSelectedBoost) {
                 winBoosts.push(randomSelectedBoost);
