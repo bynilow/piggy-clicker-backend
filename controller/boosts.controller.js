@@ -27,12 +27,47 @@ class BoostsController {
         res.json(users.rows);
     }
 
-    async buyBoostSet(req, res) {
+    //boost kits
+
+    async getBoostsKits(req, res) {
+        const user_id = req.headers['x-user-id'];
+
+        const kits = await db.query(`SELECT * FROM boosts_kits WHERE user_id = $1`, [user_id]);
+
+        res.json(kits.rows);
+    }
+
+    async addBoostsKits(req, res) {
+        const user_id = req.headers['x-user-id'];
+        const { kit_id, count } = req.body;
+
+        const currentKit = await db.query(`SELECT * FROM boosts_kits WHERE user_id = $1 AND kit_id = $2`, [user_id, kit_id]);
+
+        let newKit = null;
+
+        if (currentKit.rows[0]) {
+            newKit = await db.query(`
+                UPDATE boosts_kits 
+                SET count = count + ${count} 
+                WHERE user_id = ${user_id} 
+                AND kit_id = ${kit_id} 
+                RETURNING *
+            `);
+        } else {
+            newKit = await db.query(`
+                INSERT INTO boosts_kits (user_id, kit_id, count) 
+                VALUES (${user_id}, ${kit_id}, ${count}) 
+                RETURNING *`
+            );
+        }
+
+        res.json(newKit.rows[0]);
+    };
+
+    async openBoostSet(req, res) {
         const userId = req.headers['x-user-id'];
 
         const { boosts, cost } = req.body;
-
-        await db.query(`UPDATE person SET coins = coins - $1 where id = $2`, [cost, userId]);
 
         const sortedBoostsByRare = {
             common: boosts.filter(boost => boost.boost_rare === 'common'),

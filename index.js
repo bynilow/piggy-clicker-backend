@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import { UserController } from './controller/user.controller.js';
 import { referralsRouter } from './routes/referrals.routes.js';
 import { tgBot } from './bot/tgBot.js';
+import { achievementRouter } from './routes/achievement.routes.js';
 
 const PORT = 8080;
 
@@ -40,5 +41,6 @@ app.use('/api', userRouter);
 app.use('/api', coinsRouter);
 app.use('/api', boostsRouter);
 app.use('/api', referralsRouter);
+app.use('/api', achievementRouter);
 
 app.listen(PORT, () => console.log(`server starts on ${PORT} port`));

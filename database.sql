@@ -18,3 +18,17 @@ create TABLE sending_history(
     coins INTEGER,
     datetime TIMESTAMP
 );
+
+create TABLE achievements(
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255),
+    achievement_id VARCHAR(255),
+    achievement_level INTEGER
+);
+
+create TABLE boosts_kits(
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(255),
+    boost_kit_id VARCHAR(255),
+    boost_kit_count INTEGER
+);
